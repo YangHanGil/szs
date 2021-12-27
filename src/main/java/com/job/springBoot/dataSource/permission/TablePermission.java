@@ -30,8 +30,9 @@ public class TablePermission {
 	private String regNo; 
 	
 	@Builder
-	public TablePermission(String name) { 
-		this.name = name; 
+	public TablePermission(String name, String regNo) { 
+		this.name = name;
+		this.regNo = regNo;
 	}
 
 }
