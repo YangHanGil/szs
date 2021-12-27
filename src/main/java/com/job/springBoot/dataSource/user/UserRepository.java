@@ -16,4 +16,8 @@ public interface UserRepository extends JpaRepository<TableUser, Long> {
 					+ "WHERE userId = ?", 
 			nativeQuery = true)
 	TableUser selectUserInfo(String userId);
+	
+	@Query()
+	TableUser selectUserSign();
+	
 }

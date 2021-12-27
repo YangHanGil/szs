@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.job.springBoot.dataSource.user.UserRepository;
@@ -34,12 +35,17 @@ public class BeforeActivation {
 	@Bean
 	public ApplicationRunner applicationRunner() {
 		
+		//암호화
+		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+		
 		//리스트를 DB에 삽입한다.
 		return args -> {
 			for (int i = 0; i < userArr.length; i++) {
 
 				String name = userArr[i][0];
 				String regNo = userArr[i][1];
+				
+				regNo = scpwd.encode(regNo);
 
 				TablePermission TablePermission = 
 						new TablePermission(null, name, regNo);
