@@ -1,21 +1,13 @@
 package com.job.springBoot.dataSource.runner;
 
-import java.util.Iterator;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.job.springBoot.dataSource.user.UserRepository;
-import com.job.springBoot.dataSource.SqlSource;
 import com.job.springBoot.dataSource.permission.PromissionRepository;
 import com.job.springBoot.dataSource.permission.TablePermission;
-import com.job.springBoot.dataSource.user.TableUser;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Component
 public class BeforeActivation {

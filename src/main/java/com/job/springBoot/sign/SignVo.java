@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SigntVo {
+public class SignVo {
 		
 	//아이디
 	@NotBlank(message = "이메일을 입력하여 주십시오")

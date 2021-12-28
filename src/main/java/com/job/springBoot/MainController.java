@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping("/szs")
 public class MainController {
-	static String root = "main/";
+	static String root = "";
 
 	@GetMapping(value = "/login" )
 	@ApiOperation(value = "로그인페이지")

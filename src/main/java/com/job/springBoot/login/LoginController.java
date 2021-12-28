@@ -1,65 +1,41 @@
 package com.job.springBoot.login;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.job.springBoot.login.service.LoginService;
-import com.job.springBoot.security.CookieUtil;
-import com.job.springBoot.security.JwtUtil;
-import com.job.springBoot.security.RedisUtil;
+import com.job.springBoot.dataSource.user.UserRepository;
+import com.job.springBoot.dataSource.user.User;
+import com.job.springBoot.security.JwtTokenProvider;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @RestController("/login")
 public class LoginController {
 		
-	@Autowired
-	LoginService loginService;
-	
-	@Autowired
-	JwtUtil jwtUtil;
-	
-	@Autowired
-	CookieUtil cookieUtil;
-	
-	@Autowired
-	RedisUtil redisUtil;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final UserRepository userRepository;
 
 	@PostMapping(value = "/login" )
 	@ApiOperation(value = "로그인")
-	public Response login(
-			@Valid LoginVo loginVo,
-			BindingResult BindingResult,
-			HttpServletRequest req,
-			HttpServletResponse res
+	public String  login(
+			@RequestBody Map<String, String> user
 		) { 
 		
-		try {
-			
-            final UserVo userVo = loginService.loginlUser(loginVo);
-            final String token = jwtUtil.generateToken(userVo);
-            final String refreshJwt = jwtUtil.generateRefreshToken(userVo);
-            Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
-            Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
-            redisUtil.setDataExpire(refreshJwt, userVo.getUserId(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
-            res.addCookie(accessToken);
-            res.addCookie(refreshToken);
-
-            return new Response("success", "로그인에 성공했습니다.", token);
-        } catch (Exception e) {
-        	
-            return new Response("error", "로그인에 실패했습니다.", e.getMessage());
+		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+		
+		User userVo = userRepository.findByUserId(user.get("userId"))
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+        if (!scpwd.matches(user.get("password"), userVo.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
+        return jwtTokenProvider.createToken(userVo.getUsername(), userVo.getRoles());
 		
 		
 	}

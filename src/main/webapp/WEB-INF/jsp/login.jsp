@@ -27,7 +27,7 @@ String msg = (String)request.getAttribute("msg");
     <input type="password" name="F_PASS" placeholder="비밀번호">
     <button type="submit">로그인</button>
     
-    <a href="/regist">회원가입하기</a>
+    <a href="/szs/signin">회원가입하기</a>
 </form>
 
 </body>

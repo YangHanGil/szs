@@ -15,20 +15,8 @@ String msg = (String)request.getAttribute("msg");
 <script type="text/javascript" src="http://localhost:8080/js/common.js"></script>
 <script type="text/javascript">
 
-	const msg = "<%=msg%>";
-	if(msg != "null"){
-		alert(msg);
-	}
-
-	let EmailChk = false;
-	$(function(){
-		$('#selectUserFemail').click(function() {
-			selectUserFemail();
-			alert("dsds");
-		});
-	});
 	
-	function selectUserFemail(){
+	function signin(){
 		$('#F_EMAIL').val($('#F_EMAIL').val());
 		if (!Common.isEmail($.trim($("#F_EMAIL").val()))) {
 			alert('이메일을 입력하여 주시기 바랍니다.');
@@ -41,7 +29,7 @@ String msg = (String)request.getAttribute("msg");
 		var formdata = {
 			'F_EMAIL' : $('#F_EMAIL').val()
 		}
-		Common.call("http://localhost:8080/regist/selectUserFemail", formdata, function(data){
+		Common.call("http://localhost:8080/sign/signin", formdata, function(data){
 			if (!data) {
 				alert('등록 불가능한 아이디입니다.');
 				EmailChk = false;
@@ -54,28 +42,20 @@ String msg = (String)request.getAttribute("msg");
 	}
 </script>
 
-<form action="/regist/insertUser" method="post" enctype="multipart/form-data" onsubmit="return selectUserFemail()">
+<form action="" method="post" enctype="multipart/form-data" onsubmit="return selectUserFemail()">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
     <div>
-    	<input type="email" id="F_EMAIL" name="F_EMAIL" size="100" placeholder="이메일"> <button type="button" onclick="selectUserFemail()"> 아이디중복체크</button>
+    	<input type="email" id="userId" name="userId" size="100" placeholder="아이디">
     </div>
     <div>
-    	<input type="password" id="F_PASS" name="F_PASS" size="100" placeholder="비밀번호">
+    	<input type="password" id="password" name="password" size="100" placeholder="비밀번호">
     </div>
     <div>
-    	<input type="text" id="F_NAME" name="F_NAME" size="20" placeholder="이름">
+    	<input type="text" id="name" name="name" size="20" placeholder="이름">
     </div>
     <div>
-    	<input type="text" id="F_NICKNAME" name="F_NICKNAME" size="30" placeholder="별명(20자 이내)">
-    </div>
-    <div>
-    	<input type="text" id="F_HP" name="F_HP" size="20" placeholder="전화번호">
-    </div>
-    <div>
-    	<span> 성별 : </span>
-		<input type="radio" name="F_GENDER" value="M"> <label> 남자</label>
-		<input type="radio" name="F_GENDER" value="F"> <label> 여자</label>?
+    	<input type="password" id="fRegNo" name="fRegNo" size="6" placeholder="앞번호"> - <input type="password" id="lRegNo" name="lRegNo" size="7" placeholder="뒷번호">
     </div>
     <input type="submit" value="완료">
     
