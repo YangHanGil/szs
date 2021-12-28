@@ -93,20 +93,25 @@ var Common = {
 	    return "unknown type";
 	},
 	//Ajax호출(POST)
-	call : function(url, param, callback, sync) {
+	call : function(url, param, callback, sync, header, token) {
 		if ($.trim(url) == '') return alert('호출 URL정보가 전송되지 않았습니다.');
 		$.ajax({  
-		     type: "json", 
-		     url: url,  
-		     data: param,  
-		     method: "post",
-		     async : sync || true,
-		     success: function(msg){
-		    	 if (callback) callback(msg);
-		     },
-		     error:function(request,status,error){
-		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		     }
+			type: "json", 
+			contentType:'application/json',
+			url: url,  
+			data: param,  
+			method: "post",
+			cache: 'false',
+			async : sync || true,
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(header, token);
+			},
+		    success: function(msg){
+				if (callback) callback(msg);
+		    },
+		    error:function(request,status,error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    }
 		});
 	},
 	//Ajax호출(GET)

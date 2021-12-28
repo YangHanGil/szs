@@ -20,7 +20,7 @@ public class SignController {
 	@Autowired
 	SignService signService;
 
-	@PostMapping(value = "/signin" )
+	@PostMapping(value = "/signup" )
 	@ApiOperation(value = "회원가입", response = SignVo.class)
 	public Object insertUser(
 			@Valid SignVo signVo,

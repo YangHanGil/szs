@@ -6,7 +6,9 @@ String msg = (String)request.getAttribute("msg");
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta charset="UTF-8">
 <title>회원가입</title>
 </head>
 <body>
@@ -16,33 +18,20 @@ String msg = (String)request.getAttribute("msg");
 <script type="text/javascript">
 
 	
-	function signin(){
-		$('#F_EMAIL').val($('#F_EMAIL').val());
-		if (!Common.isEmail($.trim($("#F_EMAIL").val()))) {
-			alert('이메일을 입력하여 주시기 바랍니다.');
-			return false;
-		}if($('#F_EMAIL').val().match(Common.emlPattern) == null){
-			alert('이메일 유형이 옳지 않습니다. 예)example@example.com');
-			$('#F_EMAIL').val('');
-			return false;
-		}
-		var formdata = {
-			'F_EMAIL' : $('#F_EMAIL').val()
-		}
-		Common.call("http://localhost:8080/sign/signin", formdata, function(data){
-			if (!data) {
-				alert('등록 불가능한 아이디입니다.');
-				EmailChk = false;
-				return false;
-			} else {
-				alert('등록 가능한 아이디입니다.');
-				EmailChk = true;
-			}
-		}, false);
+	function signup(){
+		
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		var formdata = $("form[name=signForm]").serialize() ;
+		
+		Common.call("http://localhost:8080/sign/signup", formdata, function(data){
+			console.log(data);
+		}, false, header, token);
 	}
 </script>
 
-<form action="" method="post" enctype="multipart/form-data" onsubmit="return selectUserFemail()">
+<form name="signForm" action="post" onsubmit="return signup()">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
     <div>
