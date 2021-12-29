@@ -1,5 +1,6 @@
 package com.job.springBoot.dataSource.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class TableUser {
 	private Long index;
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@Column(unique = true)
 	private String userId; 
 	
 	private String name; 

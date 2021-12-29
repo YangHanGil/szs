@@ -95,14 +95,15 @@ var Common = {
 	//Ajax호출(POST)
 	call : function(url, param, callback, sync, header, token) {
 		if ($.trim(url) == '') return alert('호출 URL정보가 전송되지 않았습니다.');
+		
 		$.ajax({  
-			type: "json", 
-			contentType:'application/json',
 			url: url,  
 			data: param,  
 			method: "post",
 			cache: 'false',
+			contentType:'application/json',
 			async : sync || true,
+			headers: {header: token},
 			beforeSend: function(xhr){
 				xhr.setRequestHeader(header, token);
 			},

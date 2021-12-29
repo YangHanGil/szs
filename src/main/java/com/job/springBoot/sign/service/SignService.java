@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.job.springBoot.dataSource.permission.PromissionRepository;
 import com.job.springBoot.dataSource.permission.TablePermission;
 import com.job.springBoot.dataSource.user.TableUser;
+import com.job.springBoot.dataSource.user.TableUserRepository;
 import com.job.springBoot.dataSource.user.User;
 import com.job.springBoot.dataSource.user.UserRepository;
 import com.job.springBoot.sign.SignVo;
@@ -19,7 +20,7 @@ import com.job.springBoot.sign.SignVo;
 public class SignService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private TableUserRepository tableUserRepository;
 	
 	@Autowired
 	private PromissionRepository promissionRepository;
@@ -34,15 +35,14 @@ public class SignService {
 		try {
 			String regNo = signtVo.getFRegNo() + "-"+ signtVo.getLRegNo();
 			
-			User user = 
-					new User(null,
+			TableUser tableUser = 
+					new TableUser(null,
 							signtVo.getUserId(), 
 							signtVo.getName(), 
 							scpwd.encode(signtVo.getPassword()), 
-							scpwd.encode(regNo),
-							null
+							scpwd.encode(regNo)
 						);
-			userRepository.save(user);
+			tableUserRepository.save(tableUser);
 		} catch (Exception e) {
 			// TODO: handle exception
 			res = e.toString();
@@ -70,7 +70,7 @@ public class SignService {
 	        }
 		}
 		
-		res = cnt>0 ? false:true;
+		res = cnt>0 ? true:false;
 		
 		return res;
 	}

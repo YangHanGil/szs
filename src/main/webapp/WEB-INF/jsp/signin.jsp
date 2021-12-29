@@ -5,9 +5,11 @@ String msg = (String)request.getAttribute("msg");
 %>
 <!DOCTYPE html>
 <html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta name="_csrf_header" th:content="${_csrf.headerName}">
-	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+	<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
 	<meta charset="UTF-8">
 <title>회원가입</title>
 </head>
@@ -17,36 +19,33 @@ String msg = (String)request.getAttribute("msg");
 <script type="text/javascript" src="http://localhost:8080/js/common.js"></script>
 <script type="text/javascript">
 
-	
-	function signup(){
+
+	window.onload = function(){
 		
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
+		const msg = "<%=msg%>"
+		if(msg!="null") alert("<%=msg%>"); 
 		
-		var formdata = $("form[name=signForm]").serialize() ;
-		
-		Common.call("http://localhost:8080/sign/signup", formdata, function(data){
-			console.log(data);
-		}, false, header, token);
 	}
 </script>
 
-<form name="signForm" action="post" onsubmit="return signup()">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
-    <div>
-    	<input type="email" id="userId" name="userId" size="100" placeholder="아이디">
-    </div>
-    <div>
-    	<input type="password" id="password" name="password" size="100" placeholder="비밀번호">
-    </div>
-    <div>
-    	<input type="text" id="name" name="name" size="20" placeholder="이름">
-    </div>
-    <div>
-    	<input type="password" id="fRegNo" name="fRegNo" size="6" placeholder="앞번호"> - <input type="password" id="lRegNo" name="lRegNo" size="7" placeholder="뒷번호">
-    </div>
-    <input type="submit" value="완료">
+<form name="signForm" action="/sign/signup" method="post" enctype="multipart/form-data" onsubmit="">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	
+	<div>
+		<input type="email" id="userId" name="userId" size="100" placeholder="아이디(이메일)">
+	</div>
+	<div>
+		<input type="password" id="password" name="password" size="100" placeholder="비밀번호">
+	</div>
+	<div>
+		<input type="text" id="name" name="name" size="20" placeholder="이름" value="홍길동">
+	</div>
+	<div>
+		<input type="password" id="fRegNo" name="fRegNo" maxlength="6" placeholder="앞번호" value="860824"> 
+		- 
+		<input type="password" id="lRegNo" name="lRegNo" maxlength="7" placeholder="뒷번호" value="1655068">
+	</div>
+	<input type="submit" value="완료" >
     
 </form>
 

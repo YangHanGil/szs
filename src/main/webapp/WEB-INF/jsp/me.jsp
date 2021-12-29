@@ -1,16 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <%
 String msg = (String)request.getAttribute("msg");
 %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>ì‹œì‘í˜ì´ì§€</title>
+<meta charset="EUC-KR">
+<title>°³ÀÎÁ¤º¸</title>
 </head>
 <body>
-
 <script type="text/javascript">
 window.onload = function(){
 	
@@ -19,7 +18,8 @@ window.onload = function(){
 	
 }
 </script>
-<a href="/szs/login">ë¡œê·¸ì¸í•˜ê¸°</a>
-<a href="szs/signin">íšŒì›ê°€ì…í•˜ê¸°</a>
+
+	szs ·Î±×ÀÎÇÔ
+
 </body>
 </html>
