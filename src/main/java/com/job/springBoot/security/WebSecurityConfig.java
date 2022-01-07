@@ -55,11 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin()
 			.loginPage("/szs/login")
 			.loginPage("/szs/login/do")
-			.loginProcessingUrl("/login-processing")
-			.failureUrl("/login-error")
+			.loginProcessingUrl("/szs/login/do")
+//			.failureUrl("/login-error")
 			.defaultSuccessUrl("/me", true)
 			.usernameParameter("userId")
-			.passwordParameter("password");
+			.passwordParameter("password")
+			.permitAll();
     }
     
     @Bean

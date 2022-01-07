@@ -47,13 +47,23 @@ function login(){
 <h1>로그인</h1>
 <hr>
 <form name="loginForm" method="post" enctype="multipart/form-data" >
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<%-- 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
 	
-	<input type="text" id="userId" name="userId" placeholder="아이디">
-	<input type="password" id="password" name="password" placeholder="비밀번호">
-	<button type="button" onclick="login()">로그인</button>
-	
-	<a href="/szs/signin">회원가입하기</a>
+	<div>
+		<input type="text" id="userId" name="userId" placeholder="아이디">
+	</div>
+	<div>
+		<input type="password" id="password" name="password" placeholder="비밀번호" >
+	</div>
+	<div>
+		<input type="hidden" id="token" data-token-name="${_csrf.headerName}" placeholder="Password" value="${_csrf.token}">
+	</div>
+	<div>
+		<button type="button" onclick="login()">로그인</button>
+	</div>
+	<div>
+		<a href="/szs/signin">회원가입하기</a>
+	</div>
 </form>
 
 </body>

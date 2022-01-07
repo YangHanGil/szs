@@ -98,10 +98,10 @@ var Common = {
 		
 		$.ajax({  
 			url: url,  
-			data: param,  
-			method: "post",
+			type: "post",
 			cache: 'false',
-			contentType:'application/json',
+			contentType:'json',
+			data: param,  
 			async : sync || true,
 			headers: {header: token},
 			beforeSend: function(xhr){

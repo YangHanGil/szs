@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,11 +34,14 @@ public class LoginController {
 	@ResponseBody
 	@ApiOperation(value = "로그인")
 	public Object  login(
-			@RequestBody loginVo loginVo
+			@RequestBody loginVo loginVo,
+			@RequestParam Map<String, String> map
 		) { 
     	
     	System.out.println("loginVo.getUserId() : " + loginVo.getUserId());
     	System.out.println("loginVo.getPassword() : " + loginVo.getPassword());
+    	System.out.println(" map.get(\"userId\") : " + map.get("userId"));
+    	System.out.println(" map.get(\"password\") : " + map.get("password"));
     	
     	Map<String, String> user = new HashMap<String, String>();
     	user.put("userId", loginVo.getUserId());
